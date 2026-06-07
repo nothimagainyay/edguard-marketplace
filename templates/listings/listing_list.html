@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="hero">
+    <h1>Find Your <span>Perfect Property</span></h1>
+    <p>Every listing is automatically scanned by our AI fraud detection system to keep you safe.</p>
+    <div class="hero-badges">
+        <span class="badge">🛡️ AI Fraud Detection</span>
+        <span class="badge">✅ Verified Listings</span>
+        <span class="badge">🏠 Property Marketplace</span>
+    </div>
+</div>
+<div class="container">
+    <div class="listings-header">
+        <h2>Available Properties</h2>
+        <a href="/listings/create/" class="btn btn-gold">+ Post a Listing</a>
+    </div>
+    {% if listings %}
+        <div class="listings-grid">
+        {% for listing in listings %}
+            <div class="listing-card">
+                <div class="card-image">
+                    {% if listing.image %}
+                        <img src="{{ listing.image.url }}" alt="{{ listing.title }}">
+                    {% else %}
+                        <span class="no-image">🏠</span>
+                    {% endif %}
+                </div>
+                <div class="card-body">
+                    <a href="/listings/{{ listing.pk }}/" class="card-title">{{ listing.title }}</a>
+                    <div class="card-meta">
+                        <span>📍 {{ listing.location }}</span>
+                        <span>📅 {{ listing.created_at|date:"d M Y" }}</span>
+                    </div>
+                    <p class="card-description">{{ listing.description|truncatewords:20 }}</p>
+                    <div class="card-footer">
+                        <span class="price-tag">₦{{ listing.price }}</span>
+                        <span class="status-badge status-{{ listing.status }}">{{ listing.status }}</span>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+        </div>
+    {% else %}
+        <div class="empty-state">
+            <div class="empty-icon">🏠</div>
+            <h3>No Listings Yet</h3>
+            <p>Be the first to post a property listing on EDguard.</p>
+            <a href="/listings/create/" class="btn btn-gold">Post First Listing</a>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

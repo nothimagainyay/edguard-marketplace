@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container">
+    <div style="margin-bottom:1rem;">
+        <a href="/listings/" class="btn btn-outline">← Back to Listings</a>
+    </div>
+    <h2 style="font-size:1.8rem; font-weight:700; margin-bottom:1.5rem;">{{ listing.title }}</h2>
+    <div class="detail-grid">
+        <div>
+            <div class="detail-image">
+                {% if listing.image %}
+                    <img src="{{ listing.image.url }}" alt="{{ listing.title }}">
+                {% else %}
+                    <div style="height:100%; display:flex; align-items:center; justify-content:center; font-size:5rem;">🏠</div>
+                {% endif %}
+            </div>
+            <div style="background:white; border-radius:12px; padding:1.5rem; margin-top:1.5rem; border:1px solid #e2e8f0;">
+                <h3 style="font-weight:700; margin-bottom:1rem;">Property Description</h3>
+                <p style="color:#475569; line-height:1.8;">{{ listing.description }}</p>
+            </div>
+        </div>
+        <div>
+            <div class="detail-card">
+                <div class="detail-price">₦{{ listing.price }}</div>
+                <div class="detail-row">
+                    <span class="label">📍 Location</span>
+                    <span class="value">{{ listing.location }}</span>
+                </div>
+                <div class="detail-row">
+                    <span class="label">👤 Posted By</span>
+                    <span class="value">{{ listing.owner.username }}</span>
+                </div>
+                <div class="detail-row">
+                    <span class="label">📅 Date Posted</span>
+                    <span class="value">{{ listing.created_at|date:"d M Y" }}</span>
+                </div>
+                <div class="detail-row">
+                    <span class="label">📋 Status</span>
+                    <span class="status-badge status-{{ listing.status }}">{{ listing.status }}</span>
+                </div>
+                <div class="fraud-score-bar">
+                    <div class="score-label">
+                        <span style="font-weight:600;">🔍 AI Fraud Score</span>
+                        <span style="font-weight:700; color:{% if listing.fraud_score > 0.7 %}#ef4444{% elif listing.fraud_score > 0.4 %}#f59e0b{% else %}#22c55e{% endif %};">
+                            {{ listing.fraud_score }}
+                        </span>
+                    </div>
+                    <div class="score-bar">
+                        <div class="score-fill {% if listing.fraud_score > 0.7 %}score-high{% elif listing.fraud_score > 0.4 %}score-mid{% else %}score-low{% endif %}"
+                             style="width:{{ listing.fraud_score|floatformat:0 }}0%"></div>
+                    </div>
+                    <p style="font-size:0.75rem; color:#64748b; margin-top:0.5rem;">
+                        {% if listing.fraud_score > 0.7 %}⚠️ High fraud risk detected by AI system
+                        {% elif listing.fraud_score > 0.4 %}⚡ Moderate risk — under review
+                        {% else %}✅ Low fraud risk — listing appears legitimate{% endif %}
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="auth-wrapper">
+    <div class="auth-card">
+        <div class="auth-logo">🛡️</div>
+        <h2>Welcome Back</h2>
+        <p class="auth-sub">Log in to your EDguard account</p>
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" class="btn" style="width:100%; padding:0.8rem; font-size:1rem;">Login</button>
+        </form>
+        <div class="auth-link">
+            Don't have an account? <a href="/accounts/register/">Register here</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

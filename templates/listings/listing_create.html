@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container">
+    <div class="form-card">
+        <h2>Post a New Listing</h2>
+        <p>Fill in your property details below. Our AI system will automatically scan your listing.</p>
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" class="btn btn-gold" style="width:100%; padding:0.8rem; font-size:1rem; margin-top:0.5rem;">
+                🛡️ Submit & Scan Listing
+            </button>
+        </form>
+    </div>
+</div>
+{% endblock %}
